@@ -1,0 +1,59 @@
+.preview {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	max-height: 250px;
+	margin-bottom: 50px;
+	background-color: #fff;
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+}
+
+.randomHero {
+	display: flex;
+	padding: 40px;
+	flex: 1;
+	img {
+		display: block;
+		margin-right: 20px;
+	}
+	h2 {
+		font-weight: 700;
+		font-size: 22px;
+		line-height: 26px;
+		margin-bottom: 10px;
+	}
+}
+
+.heroDescr {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	p {
+		font-size: 14px;
+		letter-spacing: 0.25px;
+		line-height: 16px;
+	}
+}
+
+.tryRandom {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 40px;
+	background-color: #232222;
+	color: rgb(253, 253, 253);
+	font-weight: 700;
+	font-size: 24px;
+	background-image: url('/src/Assets/hammer-shield.png');
+	background-position: 110% center;
+	background-repeat: no-repeat;
+	h2 {
+		margin-bottom: 10px;
+	}
+}
+
+.btnsBlock {
+	display: flex;
+	gap: 30px;
+}

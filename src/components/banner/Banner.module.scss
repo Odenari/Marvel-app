@@ -1,0 +1,20 @@
+.banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 45px;
+	margin-bottom: 50px;
+	height: 100px;
+	background: #232222;
+	color: #ffffff;
+	div {
+		flex: 1;
+		margin-left: 85px;
+	}
+}
+
+.descr {
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 28px;
+}

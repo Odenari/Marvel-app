@@ -1,0 +1,30 @@
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 700;
+	font-size: 28px;
+	line-height: 33px;
+	margin-bottom: 50px;
+	// max-width: 1100px;
+	h1 {
+		cursor: pointer;
+		span {
+			color: #9f0013;
+		}
+	}
+	ul {
+		display: flex;
+	}
+	li:first-child {
+		color: #9f0013;
+	}
+	li {
+		margin-right: 5px;
+		cursor: pointer;
+	}
+	li + li {
+		margin-left: 5px;
+		margin-right: 0;
+	}
+}
