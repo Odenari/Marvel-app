@@ -11,6 +11,11 @@
 	h3 {
 		margin: 15px 0 0 15px;
 	}
+	img {
+		width: 200px;
+		height: 200px;
+		aspect-ratio: 1/1;
+	}
 }
 .card:hover {
 	transform: scale(105%);

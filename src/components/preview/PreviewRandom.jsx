@@ -1,21 +1,40 @@
-import MainButton from '../../UI/my-buttons/MainButton'
-import s from './PreviewRandom.module.scss'
+import MainButton from '../../UI/my-buttons/MainButton';
+import s from './PreviewRandom.module.scss';
+
+import MarvelService from '../../services/MarvelService';
+const marvelService = new MarvelService();
+const heroInfo = await marvelService.getCharacter(
+	marvelService.getRandomId(1011334, 1010903)
+);
+
 const PreviewRandom = () => {
+	const {
+		name,
+		description,
+		thumbnail: { path, extension },
+		urls: [homepage, wiki],
+	} = heroInfo;
+
 	return (
 		<section className={s.preview}>
 			<div className={s.randomHero}>
-				<img src='/src/Assets/THOR.png' alt='Card preview' />
+				<img
+					src={`${path}.${extension}`}
+					alt='Hero preview'
+					className={s.heroThumbnail}
+				/>
 				<div className={s.heroDescr}>
-					<h2>THOR</h2>
+					<h2>{name}</h2>
 					<p>
-						As the Norse God of thunder and lightning, Thor wields one of the
-						greatest weapons ever made, the enchanted hammer Mjolnir. While
-						others have described Thor as an over-muscled, oafish imbecile, he
-						{`'`}s quite smart and compassionate...
+						{description.length > 228
+							? description.slice(0, 225).concat('...')
+							: description.concat('...')}
 					</p>
 					<div className={s.btnsBlock}>
-						<MainButton>HOMEPAGE</MainButton>
-						<MainButton color='#5C5C5C'>WIKI</MainButton>
+						<MainButton path={homepage}>HOMEPAGE</MainButton>
+						<MainButton path={wiki} color='#5C5C5C'>
+							WIKI
+						</MainButton>
 					</div>
 				</div>
 			</div>
@@ -28,7 +47,7 @@ const PreviewRandom = () => {
 				<MainButton>TRY IT</MainButton>
 			</div>
 		</section>
-	)
-}
+	);
+};
 
-export default PreviewRandom
+export default PreviewRandom;
