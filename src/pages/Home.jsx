@@ -6,8 +6,10 @@ import Form from '../components/form/Form';
 import PreloaderDetails from '../components/preloader-details/PreloaderDetails';
 
 import MarvelService from '../services/MarvelService';
+
 const marvelService = new MarvelService();
 const heroes = await marvelService.getAllCharacters();
+
 function Home({ detailed = true, formFlag = true }) {
 	return (
 		<>
