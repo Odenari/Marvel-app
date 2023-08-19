@@ -1,5 +1,5 @@
-import s from './Form.module.scss'
-import MainButton from '../../UI/my-buttons/MainButton'
+import s from './Form.module.scss';
+import MainButton from '../UI/my-buttons/MainButton';
 
 const Form = () => {
 	return (
@@ -10,7 +10,7 @@ const Form = () => {
 			</div>
 			<MainButton width='105px'>FIND</MainButton>
 		</form>
-	)
-}
+	);
+};
 
-export default Form
+export default Form;

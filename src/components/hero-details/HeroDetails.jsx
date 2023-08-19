@@ -1,38 +1,82 @@
-import MainButton from '../../UI/my-buttons/MainButton'
-import s from './HeroDetails.module.scss'
-import Post from './posts/Post'
-const HeroDetails = () => {
+import MarvelService from '../../services/MarvelService';
+import MainButton from '../UI/my-buttons/MainButton';
+import Spinner from '../UI/spinner/Spinner';
+import s from './HeroDetails.module.scss';
+
+import { useEffect, useState } from 'react';
+
+const MService = new MarvelService();
+
+const HeroDetails = ({ char }) => {
+	const [loading, setLoading] = useState(false);
+	const {
+		name,
+		description,
+		thumbnail: { path, extension },
+		urls: [homepage, wiki],
+		id,
+	} = char;
+	const [comicsList, setComicsList] = useState(null);
+
+	useEffect(() => {
+		setLoading(true);
+		MService.getComics(id)
+			.then(response => response.json())
+			.then(response => {
+				setComicsList(response.data.results);
+				setLoading(false);
+			});
+	}, [id]);
+
+	const spinner = loading && <Spinner />;
 	return (
 		<div className={s.heroDetails}>
 			<div className={s.profileHeader}>
-				<img src='/src/Assets/loki.png' alt='hero avatar' />
+				<img
+					src={`${path}.${extension}`}
+					alt={`${name} avatar`}
+					className={
+						path ===
+						'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
+							? s.imgNotFound
+							: null
+					}
+				/>
 				<div>
-					<h3>LOKI</h3>
+					<h3>{name}</h3>
 					<MainButton>HOMEPAGE</MainButton>
 					<MainButton color='#5C5C5C'>WIKI</MainButton>
 				</div>
 			</div>
-			<p className={s.profileDescr}>
-				In Norse mythology, Loki is a god or jötunn (or both). Loki is the son
-				of Fárbauti and Laufey, and the brother of Helblindi and Býleistr. By
-				the jötunn Angrboða, Loki is the father of Hel, the wolf Fenrir, and the
-				world serpent Jörmungandr. By Sigyn, Loki is the father of Nari and/or
-				Narfi and with the stallion Svaðilfari as the father, Loki gave birth—in
-				the form of a mare—to the eight-legged horse Sleipnir. In addition, Loki
-				is referred to as the father of Váli in the Prose Edda.
-			</p>
-
+			<p className={s.profileDescr}>{description}</p>
 			<div className={s.inComicsList}>
 				<h2>Comics:</h2>
-				<div className='list-of-comics'>
-					<Post></Post>
-					<Post></Post>
-					<Post></Post>
-					<Post></Post>
-				</div>
+				{!loading ? (
+					<ul>
+						{comicsList && comicsList.length > 0 ? (
+							comicsList.map(comics => {
+								return (
+									<li className={s.comicsList} key={comics.id}>
+										{comics.title}
+									</li>
+								);
+							})
+						) : (
+							<li
+								className={s.comicsList}
+								style={{ paddingBottom: '8px', height: 'auto' }}
+							>
+								There is no comics to read about {name}. Maybe that hero
+								appeared in rare episode...
+							</li>
+						)}
+					</ul>
+				) : (
+					spinner
+				)}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default HeroDetails
+export default HeroDetails;

@@ -14,9 +14,16 @@
 	img {
 		width: 200px;
 		height: 200px;
-		aspect-ratio: 1/1;
+		aspect-ratio: 1 / 1;
 	}
 }
+
+.imgNotFound {
+	position: relative;
+	top: -15px;
+	object-fit: contain;
+}
+
 .card:hover {
 	transform: scale(105%);
 	filter: drop-shadow(0px 5px 20px #9f0013);
