@@ -11,14 +11,24 @@ import MarvelService from '../services/MarvelService';
 
 const MService = new MarvelService();
 const heroes = await MService.getAllCharacters();
+const cardsAmount = 9;
 
 function Home({ detailed = true, formFlag = true }) {
+	const [heroesCards, setHeroesCards] = useState(heroes);
 	const [heroDetails, setHeroDetails] = useState(null);
 
 	function handleDetails(id) {
 		if (!id) null;
-		setHeroDetails(heroes?.find(hero => hero.id === id));
+		setHeroDetails(heroesCards.find(hero => hero.id === id));
 	}
+
+	const handleMoreHeroes = async () => {
+		let offset = heroesCards.length;
+		const moreHeroes = await MService.getAllCharacters(offset + cardsAmount);
+		MService.newOffset += cardsAmount;
+		setHeroesCards(prev => [...prev, ...moreHeroes]);
+		console.log(moreHeroes);
+	};
 
 	return (
 		<>
@@ -28,7 +38,7 @@ function Home({ detailed = true, formFlag = true }) {
 			</h2>
 			<section className='content'>
 				<div className='cards-container'>
-					{heroes.map(hero => (
+					{heroesCards.map(hero => (
 						<HeroCard
 							data={hero}
 							key={hero.id}
@@ -50,7 +60,9 @@ function Home({ detailed = true, formFlag = true }) {
 				)}
 			</section>
 			<div className='btn-wrapper'>
-				<MainButton width='170px'>LOAD MORE</MainButton>
+				<MainButton handleMoreHeroes={handleMoreHeroes} width='170px'>
+					LOAD MORE
+				</MainButton>
 			</div>
 		</>
 	);

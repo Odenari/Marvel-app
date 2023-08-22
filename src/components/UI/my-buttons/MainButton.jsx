@@ -5,6 +5,7 @@ const MainButton = ({
 	color = '#9f0013',
 	children,
 	handleGetHero,
+	handleMoreHeroes,
 }) => {
 	return (
 		<button
@@ -13,7 +14,13 @@ const MainButton = ({
 				backgroundColor: color,
 			}}
 			className={btn}
-			onClick={() => handleGetHero()}
+			onClick={
+				handleGetHero
+					? () => handleGetHero()
+					: handleMoreHeroes
+					? () => handleMoreHeroes()
+					: null
+			}
 		>
 			{children}
 		</button>
