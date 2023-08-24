@@ -2,7 +2,7 @@ import MarvelService from '../../services/MarvelService';
 import MainButton from '../UI/my-buttons/MainButton';
 import Spinner from '../UI/spinner/Spinner';
 import s from './HeroDetails.module.scss';
-
+import { HeroDetailsTypes } from '../../PropTypes/PropTypes';
 import { useEffect, useState } from 'react';
 
 const MService = new MarvelService();
@@ -77,6 +77,10 @@ const HeroDetails = ({ char }) => {
 			</div>
 		</div>
 	);
+};
+
+HeroDetails.proptypes = {
+	id: HeroDetailsTypes.id,
 };
 
 export default HeroDetails;

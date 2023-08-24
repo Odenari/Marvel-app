@@ -5,6 +5,7 @@ export const ErrorRandomChar = () => {
 		<img
 			style={{
 				margin: '0 auto',
+				objectFit: 'contain',
 			}}
 			src={errorImg}
 			alt='Unexpected error, please try to refresh the page'

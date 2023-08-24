@@ -1,5 +1,6 @@
+import { forwardRef } from 'react';
 import s from './HeroCard.module.scss';
-const HeroCard = props => {
+const HeroCard = forwardRef((props, ref) => {
 	const {
 		name,
 		thumbnail: { path, extension },
@@ -15,6 +16,7 @@ const HeroCard = props => {
 
 	return (
 		<div
+			ref={ref}
 			className={s.card}
 			onClick={() => {
 				props.pickHero(props.data.id);
@@ -35,6 +37,7 @@ const HeroCard = props => {
 			</div>
 		</div>
 	);
-};
+});
+HeroCard.displayName = 'HeroCard';
 
 export default HeroCard;

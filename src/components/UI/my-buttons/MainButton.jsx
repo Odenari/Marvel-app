@@ -4,11 +4,13 @@ const MainButton = ({
 	width = '100px',
 	color = '#9f0013',
 	children,
+	isLoading,
 	handleGetHero,
 	handleMoreHeroes,
 }) => {
 	return (
 		<button
+			disabled={isLoading}
 			style={{
 				width: width,
 				backgroundColor: color,
