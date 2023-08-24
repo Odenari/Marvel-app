@@ -18,12 +18,16 @@ function Home({ detailed = true, formFlag = true }) {
 	const getRefs = ref => {
 		cardsRef.current.push(ref);
 	};
+
 	const setIndex = elements => {
+		const pureArr = elements.filter(item => item);
 		let index = 0;
-		for (let elem of elements) {
+		for (let elem of pureArr) {
 			elem.tabIndex = ++index;
 		}
+		cardsRef.current = pureArr;
 	};
+
 	const [heroDetails, setHeroDetails] = useState(null);
 	function handleDetails(id) {
 		if (!id) null;
@@ -52,11 +56,9 @@ function Home({ detailed = true, formFlag = true }) {
 	useEffect(() => {
 		// window.addEventListener('scroll', handleScroll);
 		// return () => window.removeEventListener('scroll', handleScroll);
-		// console.dir(cardsRef.current);
 		setIndex(cardsRef.current);
-		console.dir(cardsRef.current[8].tabIndex);
 	}, [isLoading]);
-
+	console.log(cardsRef.current);
 	return (
 		<>
 			<PreviewRandom />
