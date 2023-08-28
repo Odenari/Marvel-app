@@ -57,6 +57,7 @@ function Home({ detailed = true, formFlag = true }) {
 		// window.addEventListener('scroll', handleScroll);
 		// return () => window.removeEventListener('scroll', handleScroll);
 		setIndex(cardsRef.current);
+		cardsRef.current[0].focus();
 	}, [isLoading]);
 	console.log(cardsRef.current);
 	return (

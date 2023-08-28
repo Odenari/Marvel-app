@@ -21,6 +21,11 @@ const HeroCard = forwardRef((props, ref) => {
 			onClick={() => {
 				props.pickHero(props.data.id);
 			}}
+			onKeyDown={e => {
+				if (e.key === 'Enter') {
+					props.pickHero(props.data.id);
+				}
+			}}
 		>
 			<div className='hero-card'>
 				<img

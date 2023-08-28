@@ -41,7 +41,7 @@ class MarvelService {
 			name: resource.name,
 			description:
 				resource.description ||
-				`We are do not posses a short description for this mysterious hero`,
+				`We are do not posses a short description for this character`,
 			thumbnail: resource.thumbnail,
 			urls: resource.urls,
 			id: resource.id,
