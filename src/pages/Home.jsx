@@ -1,4 +1,5 @@
 import { DetailsLoader } from '../components/UI/skeletons/DetailsLoader';
+import Spinner from '../components/UI/spinner/Spinner';
 import PreviewRandom from '../components/preview/PreviewRandom';
 import HeroCard from '../components/hero-card/HeroCard';
 import HeroDetails from '../components/hero-details/HeroDetails';
@@ -9,7 +10,11 @@ import { useEffect, useState, useRef } from 'react';
 import MarvelService from '../services/MarvelService';
 
 const MService = new MarvelService();
-const heroes = await MService.getAllCharacters();
+
+async function getHeroes() {
+	const heroes = await MService.getAllCharacters();
+	return heroes;
+}
 
 function Home({ detailed = true, formFlag = true }) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +39,8 @@ function Home({ detailed = true, formFlag = true }) {
 		setHeroDetails(heroesCards.find(hero => hero.id === id));
 	}
 
-	const [heroesCards, setHeroesCards] = useState(heroes);
+	const [heroesCards, setHeroesCards] = useState(null);
+
 	const handleMoreHeroes = async () => {
 		setIsLoading(true);
 		const offset = heroesCards.length;
@@ -42,24 +48,21 @@ function Home({ detailed = true, formFlag = true }) {
 		setIsLoading(false);
 		setHeroesCards(prev => [...prev, ...moreHeroes]);
 	};
-
-	// const handleScroll = () => {
-	// 	const alreadyScrolled = window.scrollY;
-	// 	const amountOfScrollSpace =
-	// 		document.documentElement.scrollHeight - window.innerHeight;
-
-	// 	if (alreadyScrolled >= amountOfScrollSpace) {
-	// 		handleMoreHeroes();
-	// 	}
-	// };
-
 	useEffect(() => {
-		// window.addEventListener('scroll', handleScroll);
-		// return () => window.removeEventListener('scroll', handleScroll);
-		setIndex(cardsRef.current);
-		cardsRef.current[0].focus();
+		getHeroes()
+			.then(res =>
+				setHeroesCards(prev => {
+					if (!prev) return [...res];
+					else return [...prev];
+				})
+			)
+			.then(() => {
+				setIndex(cardsRef.current);
+				cardsRef.current ?? cardsRef.current[0].focus();
+			})
+			.catch(e => console.log(e.message));
 	}, [isLoading]);
-	console.log(cardsRef.current);
+
 	return (
 		<>
 			<PreviewRandom />
@@ -68,14 +71,18 @@ function Home({ detailed = true, formFlag = true }) {
 			</h2>
 			<section className='content'>
 				<div className='cards-container'>
-					{heroesCards.map(hero => (
-						<HeroCard
-							ref={getRefs}
-							data={hero}
-							key={hero.id}
-							pickHero={id => handleDetails(id)}
-						/>
-					))}
+					{Array.isArray(heroesCards) ? (
+						heroesCards.map(hero => (
+							<HeroCard
+								ref={getRefs}
+								data={hero}
+								key={hero.id}
+								pickHero={id => handleDetails(id)}
+							/>
+						))
+					) : (
+						<Spinner />
+					)}
 				</div>
 				{detailed && formFlag ? (
 					<div className='aside-content'>
