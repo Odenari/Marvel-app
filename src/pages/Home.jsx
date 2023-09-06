@@ -10,16 +10,14 @@ import { useEffect, useState, useRef } from 'react';
 import useMarvelService from '../services/MarvelService';
 
 function Home({ detailed = true, formFlag = true }) {
-  const MService = useMarvelService();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading, getAllCharacters } = useMarvelService();
 
   const cardsRef = useRef([]);
-  const getRefs = ref => {
+  const setRef = ref => {
     cardsRef.current.push(ref);
   };
 
-  const setIndex = elements => {
+  const setTabIndexOrder = elements => {
     const pureArr = elements.filter(item => item);
     let index = 0;
     for (let elem of pureArr) {
@@ -37,40 +35,33 @@ function Home({ detailed = true, formFlag = true }) {
   const [heroesCards, setHeroesCards] = useState(null);
 
   const handleMoreHeroes = async () => {
-    setIsLoading(true);
     const offset = heroesCards.length;
-    const moreHeroes = await MService.getAllCharacters(offset);
-    setIsLoading(false);
+    const moreHeroes = await getAllCharacters(offset);
     setHeroesCards(prev => [...prev, ...moreHeroes]);
   };
-  // useEffect(() => {
-  //   MService.getAllCharacters()
-  //     .then(res =>
-  //       setHeroesCards(prev => {
-  //         if (!prev) return [...res];
-  //         else return [...prev];
-  //       })
-  //     )
-  //     .then(() => {
-  //       setIndex(cardsRef.current);
-  //       console.log('set tab');
-  //       cardsRef.current ?? cardsRef.current[0].focus();
-  //     })
-  //     .catch(e => console.log(e.message));
-  // }, [isLoading]);
+
+  useEffect(() => {
+    getAllCharacters()
+      .then(res => setHeroesCards(res))
+      .then(() => {
+        setTabIndexOrder(cardsRef.current);
+        cardsRef.current ?? cardsRef.current[0].focus();
+      })
+      .catch(e => console.log(e.message));
+  }, [getAllCharacters]);
 
   return (
     <>
       <PreviewRandom />
-      {/* <h2 style={{ margin: '0 auto', fontSize: '1.8rem', marginBottom: '1em' }}>
+      <h2 style={{ margin: '0 auto', fontSize: '1.8rem', marginBottom: '1em' }}>
         Click on hero to see more details
       </h2>
-      <section className='content'> */}
-      {/* <div className='cards-container'>
+      <section className='content'>
+        <div className='cards-container'>
           {Array.isArray(heroesCards) ? (
             heroesCards.map(hero => (
               <HeroCard
-                ref={getRefs}
+                ref={setRef}
                 data={hero}
                 key={hero.id}
                 pickHero={id => handleDetails(id)}
@@ -95,13 +86,13 @@ function Home({ detailed = true, formFlag = true }) {
       </section>
       <div className='btn-wrapper'>
         <MainButton
-          isLoading={isLoading}
+          isLoading={loading}
           handleMoreHeroes={handleMoreHeroes}
           width='170px'
         >
           LOAD MORE
         </MainButton>
-      </div> */}
+      </div>
     </>
   );
 }

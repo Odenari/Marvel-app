@@ -6,8 +6,7 @@ import { HeroDetailsTypes } from '../../PropTypes/PropTypes';
 import { useEffect, useState } from 'react';
 
 const HeroDetails = ({ char }) => {
-  const MService = useMarvelService();
-  const [loading, setLoading] = useState(false);
+  const { loading, getComics } = useMarvelService();
   const {
     name,
     description,
@@ -18,14 +17,10 @@ const HeroDetails = ({ char }) => {
   const [comicsList, setComicsList] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    MService.getComics(id)
-      .then(response => response.json())
-      .then(response => {
-        setComicsList(response.data.results);
-        setLoading(false);
-      });
-  }, [id]);
+    getComics(id).then(response => {
+      setComicsList(response.data.results);
+    });
+  }, [id, getComics]);
 
   const spinner = loading && <Spinner />;
   return (

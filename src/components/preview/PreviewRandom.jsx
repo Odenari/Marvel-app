@@ -6,24 +6,35 @@ import s from './PreviewRandom.module.scss';
 
 import { useEffect, useState } from 'react';
 import { useCallback } from 'react';
+
 const PreviewRandom = () => {
-  const { isLoading, error, getCharacter, getRandomId } = useMarvelService();
+  const {
+    loading: isLoading,
+    error,
+    getCharacter,
+    getRandomId,
+    clearError,
+  } = useMarvelService();
+
   const [charData, setCharData] = useState();
 
-  // useEffect(() => {
-  //   getCharacter(getRandomId(1011334, 1010903)).then();
-  // }, [getCharacter, getRandomId]);
+  useEffect(() => {
+    getCharacter(getRandomId(1011334, 1010903)).then(info => setCharData(info));
+  }, [getCharacter, getRandomId]);
 
   const getRandomHero = useCallback(() => {
     getCharacter(getRandomId(1011334, 1010903)).then(data => {
+      if (error) {
+        clearError();
+      }
       setCharData(data);
     });
-  }, [getCharacter, getRandomId]);
+  }, [getCharacter, getRandomId, error, clearError]);
 
   const previewError = error ? <ErrorRandomChar /> : null;
   const loading = isLoading ? <Spinner /> : null;
   let content =
-    !(loading || error) && charData ? <RandomHero char={charData} /> : null;
+    !loading && !error && charData ? <RandomHero char={charData} /> : null;
 
   return (
     <section className={s.preview}>
@@ -45,6 +56,7 @@ const PreviewRandom = () => {
 };
 
 function RandomHero({ char }) {
+  if (!char) return;
   const {
     name,
     description,
