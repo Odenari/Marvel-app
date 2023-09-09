@@ -1,31 +1,32 @@
 .card {
-	width: 200px;
-	height: 318px;
-	color: #fff;
-	font-weight: 700;
-	font-size: 22px;
-	line-height: 26px;
-	cursor: pointer;
-	background: #232222;
-	transition: transform 0.15s ease-in-out, filter 0.35s ease-in-out;
-	h3 {
-		margin: 15px 0 0 15px;
-	}
-	img {
-		width: 200px;
-		height: 200px;
-		aspect-ratio: 1 / 1;
-	}
-	&:hover,
-	&:focus {
-		transform: scale(105%);
-		filter: drop-shadow(5px 5px 20px #af0a1d);
-		outline: none;
-	}
+  width: 200px;
+  height: 318px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+  cursor: pointer;
+  background: #232222;
+  transition: transform 0.15s ease-in-out, filter 0.35s ease-in-out;
+  border-radius: 8px;
+  h3 {
+    margin: 15px 0 0 15px;
+  }
+  img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 200px;
+    height: 200px;
+    aspect-ratio: 1 / 1;
+  }
+  &:hover,
+  &:focus {
+    transform: scale(105%);
+    filter: drop-shadow(5px 5px 20px #af0a1d);
+    outline: none;
+  }
 }
 
 .imgNotFound {
-	position: relative;
-	top: -15px;
-	object-fit: contain;
+  object-fit: fill;
 }

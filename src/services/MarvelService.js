@@ -5,6 +5,8 @@ import { element } from 'prop-types';
 const useMarvelService = () => {
   const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
   const _apiKey = 'apikey=0e1b8bcd2dc50536e9574db39bfca638';
+  const _apiNewComics =
+    'comics?noVariants=true&dateDescriptor=lastWeek&limit=12&';
   const _offsetBase = 530;
 
   const { loading, request, error, clearError } = useHttp();
@@ -43,6 +45,17 @@ const useMarvelService = () => {
       id: resource.id,
     };
   }
+  function _transformNewComicsData(resource) {
+    return {
+      id: resource.id,
+      title: resource.title,
+      thumbnail: resource.thumbnail,
+      price:
+        resource.prices[0].price === 0
+          ? 'Price is unknown for the moment'
+          : resource.prices[0].price,
+    };
+  }
 
   const getComics = useCallback(
     async id => {
@@ -53,6 +66,10 @@ const useMarvelService = () => {
     [request]
   );
 
+  const getNewComics = useCallback(async () => {
+    const res = await request(`${_apiBase}${_apiNewComics}${_apiKey}`);
+    return res.data.results.map(item => _transformNewComicsData(item));
+  }, [request]);
   const getRandomId = useCallback((max, min) => {
     return Math.floor(Math.random() * (max - min) + min);
   }, []);
@@ -65,6 +82,7 @@ const useMarvelService = () => {
     getCharacter,
     getComics,
     getRandomId,
+    getNewComics,
   };
 };
 export default useMarvelService;

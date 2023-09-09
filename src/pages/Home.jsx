@@ -53,9 +53,6 @@ function Home({ detailed = true, formFlag = true }) {
   return (
     <>
       <PreviewRandom />
-      <h2 style={{ margin: '0 auto', fontSize: '1.8rem', marginBottom: '1em' }}>
-        Click on hero to see more details
-      </h2>
       <section className='content'>
         <div className='cards-container'>
           {Array.isArray(heroesCards) ? (
@@ -76,7 +73,18 @@ function Home({ detailed = true, formFlag = true }) {
             {heroDetails ? (
               <HeroDetails char={heroDetails} />
             ) : (
-              <DetailsLoader />
+              <div>
+                <h2
+                  style={{
+                    margin: '0 auto',
+                    fontSize: '1.8rem',
+                    marginBottom: '1em',
+                  }}
+                >
+                  Click on hero to see more details
+                </h2>
+                <DetailsLoader />
+              </div>
             )}
             <Form />
           </div>

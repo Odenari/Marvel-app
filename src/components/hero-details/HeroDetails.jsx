@@ -14,7 +14,7 @@ const HeroDetails = ({ char }) => {
     urls: [homepage, wiki],
     id,
   } = char;
-  const [comicsList, setComicsList] = useState(null);
+  const [comics, setComicsList] = useState(null);
 
   useEffect(() => {
     getComics(id).then(response => {
@@ -47,8 +47,8 @@ const HeroDetails = ({ char }) => {
         <h2>Comics:</h2>
         {!loading ? (
           <ul>
-            {comicsList && comicsList.length > 0 ? (
-              comicsList.map(comics => {
+            {comics && comics.length > 0 ? (
+              comics.map(comics => {
                 return (
                   <li className={s.comicsList} key={comics.id}>
                     {comics.title}
