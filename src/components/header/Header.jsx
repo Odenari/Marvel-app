@@ -25,7 +25,9 @@ export const Header = () => {
           </Link>
           {` / `}
           <Link to='/comics'>
-            <li className={path === 'comics' ? activeLink : null}>Comics</li>
+            <li className={path.includes('comics') ? activeLink : null}>
+              Comics
+            </li>
           </Link>
         </ul>
       </nav>

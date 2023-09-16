@@ -1,4 +1,10 @@
 .card {
+  --trs-filterTime: 300ms;
+  --trs-transformTime: 250ms;
+  --trs-type: ease;
+  --clr-primary: #af0a1d;
+  --clr-cardBG: #222222;
+
   width: 200px;
   height: 318px;
   color: #fff;
@@ -6,25 +12,28 @@
   font-size: 22px;
   line-height: 26px;
   cursor: pointer;
-  background: #232222;
-  transition: transform 0.15s ease-in-out, filter 0.35s ease-in-out;
   border-radius: 8px;
+  box-shadow: 6px 6px 10px rgba(123, 123, 123, 0.7);
+  background-color: var(--clr-cardBG);
+  transition: transform var(--trs-transformTime) var(--trs-type),
+    filter var(--trs-filterTime) var(--trs-type),
+    box-shadow var(--trs-filterTime) var(--trs-type);
   h3 {
     margin: 15px 0 0 15px;
   }
+
   img {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
     width: 200px;
     height: 200px;
-    aspect-ratio: 1 / 1;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
-  &:hover,
-  &:focus {
+  &:is(:hover, :focus, :active) {
+    box-shadow: none;
     transform: scale(105%);
-    filter: drop-shadow(5px 5px 20px #af0a1d);
-    outline: none;
+    filter: drop-shadow(5px 5px 20px var(--clr-primary));
   }
+  outline: none;
 }
 
 .imgNotFound {

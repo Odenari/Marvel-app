@@ -36,6 +36,10 @@ const PreviewRandom = () => {
   let content =
     !loading && !error && charData ? <RandomHero char={charData} /> : null;
 
+  // if (error) {
+  //   clearError();
+  // }
+
   return (
     <section className={s.preview}>
       <div className={s.randomHero}>
@@ -56,6 +60,8 @@ const PreviewRandom = () => {
 };
 
 function RandomHero({ char }) {
+  const maxDescrLength = 153;
+
   if (!char) return;
   const {
     name,
@@ -81,8 +87,8 @@ function RandomHero({ char }) {
       <div className={s.heroDescr}>
         <h2>{name}</h2>
         <p>
-          {description.length > 228
-            ? description.slice(0, 225).concat('...')
+          {description.length > maxDescrLength
+            ? description.slice(0, maxDescrLength).concat('...')
             : description.concat('...')}
         </p>
         <div className={s.btnsBlock}>

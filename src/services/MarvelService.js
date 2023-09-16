@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { useHttp } from '../hooks/http.hook';
-import { element } from 'prop-types';
 
 const useMarvelService = () => {
   const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
   const _apiKey = 'apikey=0e1b8bcd2dc50536e9574db39bfca638';
   const _apiNewComics =
-    'comics?noVariants=true&dateDescriptor=lastWeek&limit=12&';
+    'comics?noVariants=true&dateDescriptor=thisMonth&limit=12&';
   const _offsetBase = 530;
 
   const { loading, request, error, clearError } = useHttp();
@@ -56,7 +55,20 @@ const useMarvelService = () => {
           : resource.prices[0].price,
     };
   }
-
+  function _transformSingleComics(resource) {
+    return {
+      id: resource.id,
+      pages: resource.pageCount,
+      title: resource.title,
+      thumbnail: resource.thumbnail,
+      description:
+        resource.description || "Author hasn't  provided any description",
+      langs: resource.langs || 'EN-US',
+      price: resource.prices[0].price
+        ? resource.prices[0].price
+        : "This comic book is brand new to the market, and pricing hasn't been finalized or announced yet.",
+    };
+  }
   const getComics = useCallback(
     async id => {
       return await request(
@@ -66,13 +78,26 @@ const useMarvelService = () => {
     [request]
   );
 
-  const getNewComics = useCallback(async () => {
-    const res = await request(`${_apiBase}${_apiNewComics}${_apiKey}`);
-    return res.data.results.map(item => _transformNewComicsData(item));
-  }, [request]);
+  const getNewComics = useCallback(
+    async (offset = 0) => {
+      const res = await request(
+        `${_apiBase}${_apiNewComics}&offset=${offset}&${_apiKey}`
+      );
+      return res.data.results.map(item => _transformNewComicsData(item));
+    },
+    [request]
+  );
   const getRandomId = useCallback((max, min) => {
     return Math.floor(Math.random() * (max - min) + min);
   }, []);
+
+  const getSingleComics = useCallback(
+    async id => {
+      const response = await request(`${_apiBase}comics/${id}?${_apiKey}`);
+      return _transformSingleComics(response.data.results[0]);
+    },
+    [request]
+  );
 
   return {
     loading,
@@ -83,6 +108,7 @@ const useMarvelService = () => {
     getComics,
     getRandomId,
     getNewComics,
+    getSingleComics,
   };
 };
 export default useMarvelService;

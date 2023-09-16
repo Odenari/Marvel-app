@@ -1,4 +1,7 @@
 .comicsCard {
+  --trs-timing: 300ms;
+  --clr-primary: #af0a1d;
+
   margin: 1em;
   h3 {
     width: 205px;
@@ -7,9 +10,23 @@
     line-height: 16px;
     margin-bottom: 5px;
   }
+  img {
+    transition: all var(--trs-timing) ease;
+    border-radius: 8px;
+    box-shadow: 6px 6px 10px rgba(123, 123, 123, 0.7);
+  }
+  img:is(:hover, :focus, :active) {
+    transform: scale(105%);
+    filter: drop-shadow(5px 5px 20px var(--clr-primary));
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 .comicsDescr {
   margin-top: 0.5em;
   padding-left: 5px;
+}
+.isActive {
+  color: var(--clr-primary);
 }

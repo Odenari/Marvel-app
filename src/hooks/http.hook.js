@@ -17,7 +17,6 @@ export const useHttp = () => {
         const response = await fetch(url, { method, body, headers });
 
         if (!response.ok) {
-          console.log('This is a real error');
           throw new Error(`Could not fetch ${url}, status: ${response.status}`);
         }
 

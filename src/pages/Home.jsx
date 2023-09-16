@@ -9,7 +9,7 @@ import Form from '../components/form/Form';
 import { useEffect, useState, useRef } from 'react';
 import useMarvelService from '../services/MarvelService';
 
-function Home({ detailed = true, formFlag = true }) {
+export function Home({ detailed = true, formFlag = true }) {
   const { loading, getAllCharacters } = useMarvelService();
 
   const cardsRef = useRef([]);
@@ -40,6 +40,26 @@ function Home({ detailed = true, formFlag = true }) {
     setHeroesCards(prev => [...prev, ...moreHeroes]);
   };
 
+  const renderHeroes = heroesList => {
+    return (
+      <section className='cards'>
+        <ul className='cards-container'>
+          {heroesList.map(hero => {
+            return (
+              <li key={hero.id}>
+                <HeroCard
+                  ref={setRef}
+                  data={hero}
+                  pickHero={id => handleDetails(id)}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    );
+  };
+
   useEffect(() => {
     getAllCharacters()
       .then(res => setHeroesCards(res))
@@ -54,20 +74,7 @@ function Home({ detailed = true, formFlag = true }) {
     <>
       <PreviewRandom />
       <section className='content'>
-        <div className='cards-container'>
-          {Array.isArray(heroesCards) ? (
-            heroesCards.map(hero => (
-              <HeroCard
-                ref={setRef}
-                data={hero}
-                key={hero.id}
-                pickHero={id => handleDetails(id)}
-              />
-            ))
-          ) : (
-            <Spinner />
-          )}
-        </div>
+        {heroesCards ? renderHeroes(heroesCards) : <Spinner />}
         {detailed && formFlag ? (
           <div className='aside-content'>
             {heroDetails ? (
@@ -104,4 +111,3 @@ function Home({ detailed = true, formFlag = true }) {
     </>
   );
 }
-export default Home;

@@ -1,0 +1,33 @@
+.comicsInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.descrWrapper {
+  flex: 1;
+  padding-top: 5px;
+  padding-right: 60px;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+}
+.title {
+  font-weight: 700;
+  font-size: 22px;
+}
+.descr {
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.price {
+  font-weight: 700;
+  color: #9f0013;
+  font-size: 1.145rem;
+}
+
+.noPrice {
+  font-weight: 400;
+  color: #575757ba;
+  font-size: 1.2rem;
+}

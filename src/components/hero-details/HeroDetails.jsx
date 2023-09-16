@@ -2,6 +2,7 @@ import useMarvelService from '../../services/MarvelService';
 import MainButton from '../UI/my-buttons/MainButton';
 import Spinner from '../UI/spinner/Spinner';
 import s from './HeroDetails.module.scss';
+import { Link } from 'react-router-dom';
 import { HeroDetailsTypes } from '../../PropTypes/PropTypes';
 import { useEffect, useState } from 'react';
 
@@ -47,12 +48,12 @@ const HeroDetails = ({ char }) => {
         <h2>Comics:</h2>
         {!loading ? (
           <ul>
-            {comics && comics.length > 0 ? (
+            {comics ? (
               comics.map(comics => {
                 return (
-                  <li className={s.comicsList} key={comics.id}>
-                    {comics.title}
-                  </li>
+                  <Link to={`comics/${comics.id}`} key={comics.id}>
+                    <li className={s.comicsListItem}>{comics.title}</li>
+                  </Link>
                 );
               })
             ) : (
